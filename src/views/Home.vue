@@ -1,18 +1,28 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <form @submit.prevent>
+      <input type="file" @change="preview" />
+    </form>
+    <pre>
+      {{ event }}
+    </pre>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
-  name: "Home",
-  components: {
-    HelloWorld
-  }
+  data() {
+    return {
+      event: "",
+    };
+  },
+  methods: {
+    preview(ev) {
+      const file = ev.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => (this.event = e.target.result);
+      reader.readAsText(file);
+    },
+  },
 };
 </script>
