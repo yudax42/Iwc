@@ -7,7 +7,11 @@
     <div class="container">
       <div class="playlists">
         <div>
-          <input type="text" v-model="search" />
+          <input
+            type="text"
+            v-model="search"
+            placeholder="search for a channel"
+          />
           <div class="channel" v-for="i in filterchannel" :key="i.link">
             <p @click="selected = i.link">
               {{ i.name }}
