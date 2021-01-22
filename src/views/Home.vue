@@ -7,16 +7,17 @@
       <div class="playlists">
         <div v-show="playlist && playlist.length > 1">
           <div class="channel" v-for="i in playlist" :key="i.link">
-            <p @click="selected = i.link">{{ i.name }}</p>
+            <p @click="selected = i.link">
+              {{ i.name }}
+            </p>
             <!-- <p>{{ i.link }}</p> -->
           </div>
         </div>
       </div>
       <div class="player" v-if="selected">
-        {{ selected }}
         <video-player
           ref="videoPlayer"
-          class="vjs-custom-skin"
+          class="vjs-custom-skin vid"
           :options="playerOptions"
         >
         </video-player>
@@ -33,6 +34,9 @@
 }
 .container div {
   display: inline-block;
+}
+.vid {
+  width: 100%;
 }
 .playlists {
   /* background: red; */
@@ -53,9 +57,8 @@
   cursor: pointer;
 }
 .player {
-  background: blue;
   width: 70%;
-  height: 20px;
+  /* height: 20px; */
 }
 </style>
 
@@ -71,27 +74,6 @@ export default {
       event: "",
       playlist: "",
       selected: "",
-      playerOptions: {
-        // videojs and plugin options
-        height: "360",
-        sources: [
-          {
-            withCredentials: false,
-            type: "application/x-mpegURL",
-            src:
-              "http://iptvpro.premium-tv.org:8789/d8e0e1e1e1fd/elamouri/64358",
-            // src: this.selected + ".m3u8",
-          },
-        ],
-        controlBar: {
-          timeDivider: false,
-          durationDisplay: false,
-        },
-        flash: { vhs: { withCredentials: true } },
-        html5: { vhs: { withCredentials: true } },
-        // poster:
-        // "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg",
-      },
     };
   },
   methods: {
@@ -120,6 +102,30 @@ export default {
     },
   },
   computed: {
+    playerOptions() {
+      console.log("hhfdsaf", this.selected);
+      return {
+        // videojs and plugin options
+        // height: "360",
+        width: "1000",
+        sources: [
+          {
+            withCredentials: false,
+            type: "application/x-mpegURL",
+            src: this.selected,
+            // src: this.selected + ".m3u8",
+          },
+        ],
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false,
+        },
+        flash: { vhs: { withCredentials: true } },
+        html5: { vhs: { withCredentials: true } },
+        // poster:
+        // "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg",
+      };
+    },
     player() {
       return this.$refs.videoPlayer.player;
     },
