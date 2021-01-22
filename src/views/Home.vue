@@ -5,14 +5,22 @@
     </form>
     <div class="container">
       <div class="playlists">
-        <div v-show="playlist.length > 1">
+        <div v-show="playlist && playlist.length > 1">
           <div class="channel" v-for="i in playlist" :key="i.link">
-            <p>{{ i.name }}</p>
+            <p @click="selected = i.link">{{ i.name }}</p>
             <!-- <p>{{ i.link }}</p> -->
           </div>
         </div>
       </div>
-      <div class="player"></div>
+      <div class="player" v-if="selected">
+        {{ selected }}
+        <video-player
+          ref="videoPlayer"
+          class="vjs-custom-skin"
+          :options="playerOptions"
+        >
+        </video-player>
+      </div>
     </div>
   </div>
 </template>
@@ -52,11 +60,38 @@
 </style>
 
 <script>
+import { videoPlayer } from "vue-videojs7";
+
 export default {
+  components: {
+    videoPlayer,
+  },
   data() {
     return {
       event: "",
       playlist: "",
+      selected: "",
+      playerOptions: {
+        // videojs and plugin options
+        height: "360",
+        sources: [
+          {
+            withCredentials: false,
+            type: "application/x-mpegURL",
+            src:
+              "http://iptvpro.premium-tv.org:8789/d8e0e1e1e1fd/elamouri/64358",
+            // src: this.selected + ".m3u8",
+          },
+        ],
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false,
+        },
+        flash: { vhs: { withCredentials: true } },
+        html5: { vhs: { withCredentials: true } },
+        // poster:
+        // "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg",
+      },
     };
   },
   methods: {
@@ -69,6 +104,7 @@ export default {
         this.process();
       };
     },
+
     process() {
       let parse = this.event.split("\n");
       let i = 1;
@@ -81,6 +117,11 @@ export default {
         i = i + 2;
       }
       this.playlist = playlist;
+    },
+  },
+  computed: {
+    player() {
+      return this.$refs.videoPlayer.player;
     },
   },
 };
