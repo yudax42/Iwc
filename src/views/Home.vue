@@ -5,8 +5,9 @@
     </form>
     <div class="container">
       <div class="playlists">
-        <div v-show="playlist && playlist.length > 1">
-          <div class="channel" v-for="i in playlist" :key="i.link">
+        <div>
+          <input type="text" v-model="search" />
+          <div class="channel" v-for="i in filterchannel" :key="i.link">
             <p @click="selected = i.link">
               {{ i.name }}
             </p>
@@ -72,8 +73,9 @@ export default {
   data() {
     return {
       event: "",
-      playlist: "",
+      playlist: [],
       selected: "",
+      search: "",
     };
   },
   methods: {
@@ -94,7 +96,10 @@ export default {
       // console.log(parse);
       while (i < parse.length) {
         let j = i;
-        const channel = { name: parse[i].split(",")[1], link: parse[j + 1] };
+        const channel = {
+          name: parse[i].split(",")[1] || "no name",
+          link: parse[j + 1],
+        };
         playlist.push(channel);
         i = i + 2;
       }
@@ -102,6 +107,11 @@ export default {
     },
   },
   computed: {
+    filterchannel() {
+      return this.search
+        ? this.playlist.filter((pl) => pl.name.match(RegExp(this.search, "i")))
+        : this.playlist;
+    },
     playerOptions() {
       console.log("hhfdsaf", this.selected);
       return {
