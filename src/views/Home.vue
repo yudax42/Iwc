@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <h3>download test file <a href="/test.m3u">here</a></h3>
     <form @submit.prevent>
       <input type="file" @change="preview" />
     </form>
