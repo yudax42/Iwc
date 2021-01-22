@@ -1,4 +1,7 @@
 # iptvwebplayer
+BROWSER IPTV CLIENT 
+
+you can load your m3u file and watch streams directly from the browser
 
 ## Project setup
 ```
