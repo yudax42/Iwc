@@ -1,13 +1,15 @@
 <template>
   <div class="home">
-    <h3>download test file <a href="/test.m3u">here</a></h3>
-    <form @submit.prevent>
-      <input type="file" @change="preview" />
-    </form>
     <div class="container">
       <div class="playlists">
-        <div>
+        <div class="holder">
+          <form class="import" @submit.prevent>
+            <label>Import m3u file : </label>
+            <input type="file" @change="preview" />
+          </form>
           <input
+            class="search"
+            v-if="playlist.length > 0"
             type="text"
             v-model="search"
             placeholder="search for a channel"
@@ -33,10 +35,19 @@
 </template>
 
 <style lang="css" scoped>
+.home {
+  background: linear-gradient(to right, #ffffff 0%, #d6f8ff 100%);
+  height: calc(100vh - 70px);
+}
+.import {
+  text-align: left;
+  background: #ffffff;
+  width: 100%;
+  padding: 21px;
+}
 .container {
   width: 100%;
   overflow: hidden;
-  margin-top: 10%;
 }
 .container div {
   display: inline-block;
@@ -44,20 +55,31 @@
 .vid {
   width: 100%;
 }
+.search {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  background: black;
+  color: #fff;
+}
 .playlists {
-  /* background: red; */
+  height: calc(100vh - 80px);
   width: 29%;
-  /* height: 20px; */
   float: left;
+  background: #dff8ff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 8px solid #a3dcf5;
+}
+.holder {
+  width: 100%;
 }
 .playlists .channel {
-  background: #eee;
-  border: 0.5px solid #333;
-  margin-bottom: 5px;
-  padding: 10px;
-  margin: 10px;
+  background: #fff;
   width: 100%;
-  display: block;
+  display: inline-block;
+  font-weight: bold;
+  border-bottom: 0.5px solid #eee;
 }
 .playlists .channel:hover {
   cursor: pointer;
@@ -65,6 +87,18 @@
 .player {
   width: 70%;
   /* height: 20px; */
+}
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+.videoWrapper .video-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>
 
@@ -121,8 +155,8 @@ export default {
       console.log("hhfdsaf", this.selected);
       return {
         // videojs and plugin options
-        // height: "360",
-        width: "1000",
+        height: "900",
+        width: "1413",
         sources: [
           {
             withCredentials: false,
