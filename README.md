@@ -3,6 +3,9 @@ BROWSER IPTV CLIENT
 
 you can load your m3u file and watch streams directly from the browser
 
+Test file
+https://raw.githubusercontent.com/Free-IPTV/Countries/master/ZZ_PLAYLIST_ALL_TV.m3u
+
 ## Project setup
 ```
 npm install
